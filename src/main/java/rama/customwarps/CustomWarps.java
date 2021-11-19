@@ -1,17 +1,46 @@
 package rama.customwarps;
 
+
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
+import rama.customwarps.commands.MainCommand;
+
+import java.io.File;
 
 public final class CustomWarps extends JavaPlugin {
 
+    public String rutaConfig;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        registerCmds();
+        registerConfig();
+        sendLog();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
+
+    public void registerCmds(){
+        this.getCommand("customwarps").setExecutor(new MainCommand(this));
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &eCargando comandos..."));
+    }
+
+    public void registerConfig(){
+        File config = new File(this.getDataFolder(),"config.yml");
+        rutaConfig = config.getPath();
+        if(!config.exists()){
+            this.getConfig().options().copyDefaults(true);
+            saveDefaultConfig();
+        }
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &eCargando config.yml..."));
+    }
+    public void sendLog(){
+        Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &eEl plugin ha cargado correctamente. &7 -por ImRama"));
+    }
+
+
 }

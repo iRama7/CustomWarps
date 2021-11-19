@@ -3,3 +3,5 @@ version: '${project.version}'
 main: rama.customwarps.CustomWarps
 api-version: 1.17
 authors: [ Rama ]
+commands:
+  customwarps:
