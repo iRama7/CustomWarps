@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import rama.customwarps.CustomWarps;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.util.Arrays;
 
 public class MainCommand implements CommandExecutor {
     private CustomWarps plugin;
@@ -27,14 +29,14 @@ public class MainCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0){
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &7/customwarps setwarp (nombre)"));
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &7/customwarps warp (jugador) (nombre) [consola]"));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &7/customwarps warp (nombre) (jugador) [consola]"));
         }else if(args[0].equalsIgnoreCase("setwarp") && sender.hasPermission("customwarps.*")){
             FileConfiguration config = plugin.getConfig();
             Player player = Bukkit.getPlayer(sender.getName());
             Location playerLoc = player.getLocation();
-            int x = playerLoc.getBlockX();
-            int y = playerLoc.getBlockY();
-            int z = playerLoc.getBlockZ();
+            Double x = Double.valueOf(playerLoc.getBlockX());
+            Double y = Double.valueOf(playerLoc.getBlockY());
+            Double z = Double.valueOf(playerLoc.getBlockZ());
             float pitch = playerLoc.getPitch();
             float yaw = playerLoc.getYaw();
             String world = player.getWorld().getName();
@@ -60,15 +62,23 @@ public class MainCommand implements CommandExecutor {
                     sender.sendMessage("Ese warp no existe.");
                 }
 
-                int x = config.getInt("warps."+warpName+".x");
-                int y = config.getInt("warps."+warpName+".y");
-                int z = config.getInt("warps."+warpName+".z");
+                Double x = config.getDouble("warps."+warpName+".x");
+                Double y = config.getDouble("warps."+warpName+".y");
+                Double z = config.getDouble("warps."+warpName+".z");
                 float pitch = config.getInt("warps."+warpName+".pitch");
                 float yaw = config.getInt("warps."+warpName+".yaw");
                 String worldName = config.getString("warps."+warpName+".world");
                 World world = Bukkit.getWorld(worldName);
                 Location warpLoc = new Location(world, x, y, z, yaw, pitch);
-                player.teleport(warpLoc);
+
+
+                if(warpLoc.isWorldLoaded()){
+                    player.teleport(warpLoc);
+
+                }else{
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cEl &eend &cse encuentra CERRADO!"));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cAbrirá el viernes a las 23:59"));
+                }
             }else{
                 sender.sendMessage("Ese comando solo puede usarse desde la consola.");
             }
