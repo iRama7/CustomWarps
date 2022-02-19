@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 import rama.customwarps.commands.MainCommand;
+import rama.customwarps.commands.PracticeCommand;
+import rama.customwarps.commands.PvPCommand;
 
 import java.io.File;
 
@@ -26,6 +28,8 @@ public final class CustomWarps extends JavaPlugin {
 
     public void registerCmds(){
         this.getCommand("customwarps").setExecutor(new MainCommand(this));
+        this.getCommand("pvp").setExecutor(new PvPCommand(this));
+        this.getCommand("practice").setExecutor(new PracticeCommand(this));
         Bukkit.getConsoleSender().sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &eCargando comandos..."));
     }
 

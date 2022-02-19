@@ -82,6 +82,50 @@ public class MainCommand implements CommandExecutor {
             }else{
                 sender.sendMessage("Ese comando solo puede usarse desde la consola.");
             }
+        }else if(args[0].equalsIgnoreCase("setpvp") && sender.hasPermission("customwarps.*")){
+            if(sender instanceof Player){
+                FileConfiguration config = plugin.getConfig();
+                Player player = Bukkit.getPlayer(sender.getName());
+                Location playerLoc = player.getLocation();
+                Double x = Double.valueOf(playerLoc.getBlockX());
+                Double y = Double.valueOf(playerLoc.getBlockY());
+                Double z = Double.valueOf(playerLoc.getBlockZ());
+                float pitch = playerLoc.getPitch();
+                float yaw = playerLoc.getYaw();
+                String world = player.getWorld().getName();
+
+                config.set("warps.pvp", null);
+                config.set("warps.pvp.x", x);
+                config.set("warps.pvp.y", y);
+                config.set("warps.pvp.z", z);
+                config.set("warps.pvp.world", world);
+                config.set("warps.pvp.pitch", pitch);
+                config.set("warps.pvp.yaw", yaw);
+                plugin.saveConfig();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &7Has definido el lugar de PvP." ));
+            }
+        }else if(args[0].equalsIgnoreCase("setpractice") && sender.hasPermission("customwarps.*")){
+            if(sender instanceof Player){
+                FileConfiguration config = plugin.getConfig();
+                Player player = Bukkit.getPlayer(sender.getName());
+                Location playerLoc = player.getLocation();
+                Double x = Double.valueOf(playerLoc.getBlockX());
+                Double y = Double.valueOf(playerLoc.getBlockY());
+                Double z = Double.valueOf(playerLoc.getBlockZ());
+                float pitch = playerLoc.getPitch();
+                float yaw = playerLoc.getYaw();
+                String world = player.getWorld().getName();
+
+                config.set("warps.practice", null);
+                config.set("warps.practice.x", x);
+                config.set("warps.practice.y", y);
+                config.set("warps.practice.z", z);
+                config.set("warps.practice.world", world);
+                config.set("warps.practice.pitch", pitch);
+                config.set("warps.practice.yaw", yaw);
+                plugin.saveConfig();
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&3[&cCustomWarps&3] &7Has definido el lugar de Practice." ));
+            }
         }
         return false;
     }
